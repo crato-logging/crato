@@ -3,10 +3,12 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const config = require("../config");
 
-const logsBucket = new aws.S3({
-  accessKeyId: "",
-  secretAccessKey: ""
+aws.config.update({
+  secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: config.AWS_ACCESS_KEY_ID
 });
+
+const logsBucket = new aws.S3();
 
 const upload = multer({
   storage: multerS3({
