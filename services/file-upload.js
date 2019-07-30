@@ -20,25 +20,25 @@ const upload = multer({
     key: function(req, file, cb) {
       cb(null, Date.now().toString()); // this is how filename will appear in S3 bucket
     }
-  }),
-  limits: { fileSize: 2000000 }, // this is in bytes. 2000000 bytes = 2 mb
-  fileFilter: function(req, file, cb) {
-    checkFileType(file, cb);
-  }
+  })
+  // limits: { fileSize: 2000000 } // this is in bytes. 2000000 bytes = 2 mb
+  // fileFilter: function(req, file, cb) {
+  //   checkFileType(file, cb);
+  // }
 });
 
-const checkFileType = (file, cb) => {
-  // allowed extensions
-  const filetypes = /log|txt/;
-  // check extensions
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // check mime
-  const mimetype = filename.test(file.mimetype);
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb("Error: Invalid log file");
-  }
-};
+// const checkFileType = (file, cb) => {
+//   // allowed extensions
+//   const filetypes = /log|txt/;
+//   // check extensions
+//   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+//   // check mime
+//   const mimetype = filename.test(file.mimetype);
+//   if (mimetype && extname) {
+//     return cb(null, true);
+//   } else {
+//     cb("Error: Invalid log file");
+//   }
+// };
 
 module.exports = upload;

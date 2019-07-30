@@ -9,7 +9,7 @@ router.post("/upload", (req, res) => {
   singleUpload(req, res, err => {
     if (err) {
       return res.status(422).send({
-        errors: [{ title: "Image Upload Error", detail: err.message }]
+        errors: [{ title: "File Upload Error", detail: err.message }]
       });
     }
 
