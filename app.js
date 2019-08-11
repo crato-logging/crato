@@ -4,6 +4,10 @@ import writeToInfluxDB from "./DB/write_to_influx.js";
 import fs from "fs";
 import sendToS3 from "./DB/send_to_s3.js";
 
+const path = require("path");
+const CronJob = reuquire("cron").CronJob;
+const _ = require("lodash");
+
 influxConsumer.on("message", message => {
   const syslogMsg = message.value; // the rest is Kafka meta data
   const jsonMsg = JSON.parse(syslogMsg);
@@ -46,3 +50,15 @@ const writeToFile = jsonStr => {
     }
   });
 };
+
+// runs every day at midnight
+new CronJob("00 00 00 * *", () => {
+  fs.readdir("./log_files", (err, files) => {
+    if (err) {
+      console.log("Error reading log files");
+    } else {
+      rotate(files);
+    }
+  });
+});
+
