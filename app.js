@@ -3,9 +3,10 @@ import s3Consumer from "./consumers/s3_consumer.js";
 import writeToInfluxDB from "./DB/write_to_influx.js";
 import fs from "fs";
 import sendToS3 from "./DB/send_to_s3.js";
+import queue from "./bin/queue.js";
 
 const path = require("path");
-const CronJob = reuquire("cron").CronJob;
+const CronJob = require("cron").CronJob;
 const _ = require("lodash");
 
 influxConsumer.on("message", message => {
@@ -23,7 +24,8 @@ process.on("SIGINT", () => {
 s3Consumer.on("message", message => {
   const syslogMsg = message.value; // the rest is Kafka meta data
   const jsonStr = JSON.stringify(syslogMsg);
-  writeToFile(jsonStr);
+
+  addToQueue(jsonStr);
 });
 
 s3Consumer.on("error", err => console.log("error", err));
@@ -62,3 +64,11 @@ new CronJob("00 00 00 * *", () => {
   });
 });
 
+const rotate = files => {
+  const crntTime = new Date();
+  //const threeDaysFromNow = crntTime - (new Date().getTime() - 3 * 24 * 60 * 60 * 1000));
+
+  _(files).forEach(file => {
+    const fileDate = file.split(".")[2];
+  });
+};
