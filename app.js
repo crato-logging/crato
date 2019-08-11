@@ -35,15 +35,22 @@ process.on("SIGINT", () => {
 });
 
 // runs every day at midnight
-new CronJob("00 00 00 * *", () => {
-  fs.readdir("./log_files", (err, files) => {
-    if (err) {
-      console.log("Error reading log files");
-    } else {
-      rotate(files);
-    }
-  });
-});
+new CronJob(
+  "00 00 00 * *",
+  () => {
+    fs.readdir("./log_files", (err, files) => {
+      if (err) {
+        console.log("Error reading log files");
+      } else {
+        rotate(files);
+      }
+    });
+  },
+  function() {
+    console.log("Finished log rotation");
+  },
+  true
+);
 
 const rotate = files => {
   const crntTime = new Date();
@@ -56,6 +63,17 @@ const rotate = files => {
 
     if (crntTime - fileTime > threeDaysFromNow) {
       deleteFile(file);
+    }
+  });
+};
+
+const deleteFile = file => {
+  console.log("Deleting file: " + file);
+  fs.unlink(`./log_files/${file}`, err => {
+    if (err) {
+      console.log("Error encountered while deleting file");
+    } else {
+      console.log("Log file delete: " + file);
     }
   });
 };
