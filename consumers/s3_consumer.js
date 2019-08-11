@@ -13,7 +13,12 @@ const fetchReqPayload = [
 const options = {
   fromOffset: "latest",
   encoding: "utf8",
-  groupId: "archive-group"
+  groupId: "archive-group",
+  autoCommitIntervalMs: 5000,
+  fetchMaxWaitMs: 100,
+  fetchMinBytes: 1,
+  fetchMaxBytes: 1024 * 1024,
+  encoding: "utf8"
 };
 
 const s3Consumer = new Consumer(client, fetchReqPayload, [
