@@ -16,8 +16,9 @@ function createQueue(maxSize) {
     },
 
     flush() {
+      const logsArr = [...queue];
       this.clear();
-      writeToFile(queue);
+      writeToFile(logsArr);
     },
 
     clear() {
@@ -25,5 +26,7 @@ function createQueue(maxSize) {
       size = 0;
     }
   };
+
+  return Object.create(Queue);
 }
 export default createQueue;
