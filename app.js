@@ -47,9 +47,15 @@ new CronJob("00 00 00 * *", () => {
 
 const rotate = files => {
   const crntTime = new Date();
-  //const threeDaysFromNow = crntTime - (new Date().getTime() - 3 * 24 * 60 * 60 * 1000));
+  const threeDaysFromNow =
+    crntTime - (new Date().getTime() - 3 * 24 * 60 * 60 * 1000);
 
   _(files).forEach(file => {
-    const fileDate = file.split(".")[2];
+    const fileDate = file.split("_")[2].replace(/-/g, "/");
+    const fileTime = new Date(fileDate);
+
+    if (crntTime - fileTime > threeDaysFromNow) {
+      deleteFile(file);
+    }
   });
 };
