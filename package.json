@@ -1,17 +1,19 @@
 {
-  "name": "s3app",
+  "name": "consumer",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node -r esm crato.js"
   },
   "dependencies": {
     "aws-sdk": "^2.493.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
+    "esm": "^3.2.25",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "influx": "^5.4.0",
     "jade": "~1.11.0",
     "kafka-node": "^4.1.3",
     "morgan": "~1.9.1",
