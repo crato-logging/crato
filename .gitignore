@@ -3,3 +3,6 @@
 
 # dependencies
 /node_modules
+
+# log files
+*_log_data*

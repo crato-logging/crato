@@ -1,4 +1,4 @@
-import writeToFile from "./write_to_file.js";
+import sendToS3 from "../DB/send_to_s3.js";
 
 function createQueue(maxSize) {
   let queue = [];
@@ -18,7 +18,7 @@ function createQueue(maxSize) {
     flush() {
       const logsArr = [...queue];
       this.clear();
-      writeToFile(logsArr);
+      sendToS3(logsArr);
     },
 
     clear() {

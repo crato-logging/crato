@@ -4,11 +4,12 @@ import writeToInfluxDB from "./DB/write_to_influx.js";
 import fs from "fs";
 import sendToS3 from "./DB/send_to_s3.js";
 import createQueue from "./bin/queue.js";
+import config from "./config.js";
 
 const path = require("path");
 const CronJob = require("cron").CronJob;
 const _ = require("lodash");
-const queue = createQueue(10);
+const queue = createQueue(parseInt(config.QUEUE_MAX_SIZE, 10));
 
 influxConsumer.on("message", message => {
   const syslogMsg = message.value; // the rest is Kafka meta data
@@ -24,9 +25,7 @@ process.on("SIGINT", () => {
 
 s3Consumer.on("message", message => {
   const syslogMsg = message.value; // the rest is Kafka meta data
-  const jsonStr = JSON.stringify(syslogMsg);
-
-  queue.add(jsonStr);
+  queue.add(syslogMsg);
 });
 
 s3Consumer.on("error", err => console.log("error", err));
@@ -52,13 +51,14 @@ new CronJob(
   true
 );
 
+// delete files that are 3 days old
 const rotate = files => {
   const crntTime = new Date();
   const threeDaysFromNow =
     crntTime - (new Date().getTime() - 3 * 24 * 60 * 60 * 1000);
 
   _(files).forEach(file => {
-    const fileDate = file.split("_")[2].replace(/-/g, "/");
+    const fileDate = file.split("_")[1].replace(/-/g, "/");
     const fileTime = new Date(fileDate);
 
     if (crntTime - fileTime > threeDaysFromNow) {
@@ -73,7 +73,7 @@ const deleteFile = file => {
     if (err) {
       console.log("Error encountered while deleting file");
     } else {
-      console.log("Log file delete: " + file);
+      console.log("Log file deleted: " + file);
     }
   });
 };
