@@ -2,11 +2,9 @@ const Influx = require("influx");
 import config from "../config.js";
 
 const influx = new Influx.InfluxDB({
-  database: "LOG_DATA3",
-  host: "35.183.71.251",
+  database: "crato_logs",
+  host: process.env.INFLUXDB_HOST,
   port: 8086,
-  username: config.INFLUX_DB_USERNAME,
-  password: config.INFLUX_DB_PASSWORD,
   schema: [
     {
       fields: {
