@@ -31,7 +31,8 @@ services:
     environment:
       KAFKA_HOST: kafka
     ports:
-      -  "1054:1054"
+      - "514:514"
+      - "10514:10514"
     networks:
       - log_network
 
