@@ -27,7 +27,8 @@ services:
       - log_network
 
   rsyslog:
-    image: jumanjiman/rsyslog   #rsyslog on linux container
+    build:
+      context: ./rsyslog-central-server
     environment:
       KAFKA_HOST: kafka
     ports:
