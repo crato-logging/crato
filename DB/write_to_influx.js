@@ -3,8 +3,8 @@ import influx from "./influx.js";
 influx
   .getDatabaseNames()
   .then(names => {
-    if (!names.includes("LOG_DATA3")) {
-      return influx.createDatabase("LOG_DATA3");
+    if (!names.includes("crato_logs")) {
+      return influx.createDatabase("crato_logs");
     }
   })
   .catch(error => console.log({ error }));
@@ -43,7 +43,7 @@ const writeToInfluxDB = jsonMsg => {
         }
       ],
       {
-        database: "LOG_DATA3"
+        database: "crato_logs"
       }
     )
     .then(() => {
