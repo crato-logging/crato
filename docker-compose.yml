@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 networks:
   log_network:
@@ -22,7 +22,6 @@ services:
       - rsyslog
       - zookeeper
       - kafka
-      - influxdb
     networks:
       - log_network
 
@@ -36,9 +35,12 @@ services:
       - "10514:10514"
     networks:
       - log_network
+    depends_on:
+      - zookeeper
+      - kafka
 
   zookeeper:
-    image: confluentinc/cp-zookeeper
+    image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: "8092"
       ZOOKEEPER_TICK_TIME: 2000
@@ -48,14 +50,14 @@ services:
       - log_network
 
   kafka:
-    image: confluentinc/cp-kafka
+    image: confluentinc/cp-kafka:latest
     environment:
+      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:8092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_CREATE_TOPICS: "jsonlogs:1:1,test3:3:1" #only works with wurstmeister image, for now keep as notes.
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -63,6 +65,7 @@ services:
       - zookeeper
     networks:
       - log_network
+
 
   influxdb:
     image: influxdb
@@ -72,6 +75,8 @@ services:
       - log_network
     environment:
       INFLUXDB_DB: "crato_logs"
+    depends_on:
+      - consuming
 
   chronograf:
     image: chronograf
