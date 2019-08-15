@@ -9,8 +9,9 @@ COPY rsyslog.conf /etc
 COPY rsyslog.conf etc/rsyslog-confd/
 RUN apt-get install nano
 RUN apt-get install vnstat
-EXPOSE 514/udp
 EXPOSE 514/tcp
+EXPOSE 514/udp
 
 EXPOSE 10514/tcp
+EXPOSE 10514/udp
 CMD ["/usr/sbin/rsyslogd", "-n", "-f", "/etc/rsyslog.conf"]
