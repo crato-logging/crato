@@ -30,6 +30,8 @@ services:
     depends_on:
       - zookeeper
       - kafka
+    links:
+      - kafka
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -45,7 +47,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:8092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://167.71.117.70:29092, PLAINTEXT://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://167.71.117.70:29092, PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

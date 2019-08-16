@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM camptocamp/rsyslog-bin
 RUN mkdir --p /var/spool/rsyslog
 RUN apt-get update
 RUN apt-get install -y rsyslog rsyslog-kafka rsyslog-mmjsonparse
