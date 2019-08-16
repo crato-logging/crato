@@ -14,4 +14,4 @@ EXPOSE 514/udp
 
 EXPOSE 10514/tcp
 EXPOSE 10514/udp
-CMD ["/usr/sbin/rsyslogd", "-n", "-f", "/etc/rsyslog.conf"]
+CMD ["/usr/sbin/rsyslogd", "-d", "-n", "-f", "/etc/rsyslog.conf"]
