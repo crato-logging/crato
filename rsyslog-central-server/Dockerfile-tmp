@@ -1,7 +1,5 @@
-FROM ubuntu:18.04
+FROM pschiffe/rsyslog-elasticsearch-kibana
 RUN mkdir --p /var/spool/rsyslog
-RUN apt-get update
-RUN apt-get install -y rsyslog rsyslog-kafka rsyslog-mmjsonparse
 EXPOSE 514/tcp
 EXPOSE 514/udp
 EXPOSE 10514/tcp
