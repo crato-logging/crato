@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   consuming: # node.js app for kafka consumers
@@ -34,7 +34,7 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
-      ZOOKEEPER_CLIENT_PORT: "8092"
+      ZOOKEEPER_CLIENT_PORT: 8092
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "8092:8092"
@@ -48,9 +48,6 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    ports:
-      - "9092:9092"
-      - "29092:29092"
     depends_on:
       - zookeeper
 
