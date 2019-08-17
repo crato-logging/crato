@@ -28,8 +28,6 @@ services:
     depends_on:
       - zookeeper
       - kafka
-    links:
-      - kafka
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
