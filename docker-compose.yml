@@ -1,12 +1,10 @@
 version: '3'
 
 services:
-  consuming: # node.js app for kafka consumers
+  consuming: # node.js app for kafka consumers on port 3000
     build:
       context: .
       dockerfile: ./Dockerfile
-    ports:
-      - "3000:3000"
     environment:
       INFLUXDB_HOST: influxdb
       KAFKA_HOST: kafka
@@ -38,8 +36,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 8092
       ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "8092:8092"
 
   kafka:
     hostname: kafka
@@ -47,21 +43,42 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:8092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://167.71.117.70:29092, PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-    ports:
-      - '9092:9092'
-      - '29092:29092'
+
+  kafka2:
+    hostname: kafka
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:8092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  kafka3:
+    hostname: kafka
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:8092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
 
 
-  influxdb:
+  influxdb: #on port 8086
     image: influxdb
-    ports:
-      - "8086:8086"
     environment:
       INFLUXDB_DB: "crato_logs"
     depends_on:
