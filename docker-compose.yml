@@ -49,7 +49,7 @@ services:
       - zookeeper
 
   kafka2:
-    hostname: kafka
+    hostname: kafka2
     image: confluentinc/cp-kafka:latest
     environment:
       KAFKA_BROKER_ID: 2
@@ -62,7 +62,7 @@ services:
       - zookeeper
 
   kafka3:
-    hostname: kafka
+    hostname: kafka3
     image: confluentinc/cp-kafka:latest
     environment:
       KAFKA_BROKER_ID: 3
