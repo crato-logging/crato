@@ -86,6 +86,7 @@ services:
     image: chronograf
     environment:
       INFLUXDB_HOST: influxdb
+      INFLUXDB_PORT: 8086
     ports:
        - '8888:8888'
     depends_on:
