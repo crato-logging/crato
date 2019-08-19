@@ -1,7 +1,7 @@
 import kafka from "kafka-node";
 
 const Consumer = kafka.Consumer;
-const client = new kafka.KafkaClient({ kafkaHost: process.env.KAFKA_HOST + ':29092' });
+const client = new kafka.KafkaClient({ kafkaHost: process.env.KAFKA_HOST });
 
 const fetchReqPayload = [
   {

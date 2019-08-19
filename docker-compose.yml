@@ -1,21 +1,24 @@
 version: '3'
 
 services:
-  consuming: # node.js app for kafka consumers on port 3000
+  consumer: # node.js app for kafka consumers on port 3000
     build:
       context: .
       dockerfile: ./Dockerfile
     environment:
       INFLUXDB_HOST: influxdb
-      KAFKA_HOST: kafka
-      AWS_ACCESS_KEY_ID: ''
-      AWS_SECRET_ACCESS_KEY: ''
-      AWS_S3_BUCKET_NAME: ''
-      QUEUE_MAX_SIZE: ''
+      KAFKA_HOST: "kafka:29092,kafka2:29092,kafka3:29092"
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_S3_BUCKET_NAME: ${AWS_S3_BUCKET_NAME}
+      QUEUE_MAX_SIZE: ${QUEUE_MAX_SIZE}
     depends_on:
       - rsyslog
       - zookeeper
       - kafka
+    volumes:
+      - /app/node_modules
+      - ./consumer:/crato-app
 
   rsyslog:
     build:
@@ -28,12 +31,17 @@ services:
     depends_on:
       - zookeeper
       - kafka
+    volumes:
+      - rsyslog-data:/var/lib/rsyslog/data
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 8092
       ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-logs/var/lib/zookeeper/log
 
   kafka:
     hostname: kafka
@@ -47,6 +55,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
 
   kafka2:
     hostname: kafka2
@@ -60,6 +71,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+    volumes:
+      - kafka2-data:/var/lib/kafka/data
+
 
   kafka3:
     hostname: kafka3
@@ -73,21 +87,37 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-
+    volumes:
+      - kafka3-data:/var/lib/kafka/data
 
   influxdb: #on port 8086
     image: influxdb
     environment:
       INFLUXDB_DB: "crato_logs"
     depends_on:
-      - consuming
+      - consumer
+    volumes:
+      - influxdb-data:/var/lib/influxdb/data
 
   chronograf:
     image: chronograf
     environment:
       INFLUXDB_HOST: influxdb
+      INFLUXDB_PORT: 8086
     ports:
        - '8888:8888'
     depends_on:
-      - consuming
+      - consumer
       - influxdb
+    volumes:
+      - chronograf-data:/var/lib/chronograf
+
+volumes:
+  rsyslog-data:
+  zookeeper-data:
+  zookeeper-logs:
+  kafka-data:
+  kafka2-data:
+  kafka3-data:
+  influxdb-data:
+  chronograf-data:
