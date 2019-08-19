@@ -28,7 +28,7 @@ Here are a list of Crato commands:
 |:---------------------------:	|:----------------------------------------------------------------:	|
 | `services`                  	| Provides a listing and description of all of Crato's services    	|
 | `deploy`                    	| Starts up Crato system                                           	|
-| `shutdown`                  	| Shops Crato system and all services                              	|
+| `shutdown`                  	| Stops Crato system and all services                              	|
 | `start <service>`           	| Starts a specific Crato service                                  	|
 | `stop <service>`            	| Stops a specific Crato service                                   	|
 | `install-kafka`             	| Installs Kafka cluster and textlogs & jsonlogs topics            	|
