@@ -93,7 +93,9 @@ const liveTail = () => {
 
 const stopCrato = () => {
     log('Crato is now shutting down...')
-    exec('docker-compose stop')
+    exec('docker-compose stop').on('close', (err, stdout, stderr) => {
+      log('Crato has now fully shutdown. Goodbye.')
+    })
 }
 
 const displaySystemStatus = () => (exec('docker ps -a', (err, stdout, stderr) => console.log(stdout)))
@@ -174,6 +176,10 @@ program.command('services')
 program.command('deploy')
     .description('Starts up Crato system')
     .action(deployCrato)
+
+program.command('shutdown')
+       .description('Shops Crato system and all services')
+       .action(stopCrato)
 
 program.command('start <service>')
     .description('Starts a specific Crato service')
