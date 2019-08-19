@@ -15,18 +15,19 @@ Crato provides a CLI to make using the core system and tracking logs much easier
 After installing the above dependencies, run `npm link`  && `npm install` which will make the `crato` command available.
 
 Here are a list of Crato commands:
-| Commands                   |   Description                                                                 |
-|----------------------------|----------------------------------------------------------------------|
-| `services`                   |    Provides a listing and description of all of Crato's services    
-| `deploy`                     |    Starts up Crato system                                           
-| `shutdown`                   |    Shops Crato system and all services                              
-| `start <service>`            |    Starts a specific Crato service                                  
-| `stop <service>`             |    Stops a specific Crato service                                   
-| `install-kafka`              |    Installs Kafka cluster and textlogs & jsonlogs topics           
-| `container-logs|cl <service>`|    Displays Docker container logs for a specific service            
-| `live-tail|lt`               |    See all external logs streaming into Crato. Press Ctrl-C to exit 
-| `shell|sh <service>`         |    Attaches a shell to a specific Crato service                     
-| `status`                     |    Displays the status of all of Crato's services                   
+
+| Commands          	| Description                                                   	|
+|-------------------	|---------------------------------------------------------------	|
+| `services`        	| Provides a listing and description of all of Crato's services 	|
+| `deploy`          	| Starts up Crato system                                        	|
+| `shutdown`        	| Shops Crato system and all services                           	|
+| `start <service>` 	| Starts a specific Crato service                               	|
+| `stop <service>`  	| Stops a specific Crato service                                	|
+| `install-kafka`   	| Installs Kafka cluster and textlogs & jsonlogs topics         	|
+| `container-logs   	| cl <service>`                                                 	|
+| `live-tail        	| lt`                                                           	|
+| `shell            	| sh <service>`                                                 	|
+| `status`          	| Displays the status of all of Crato's services                	|
 
 ## Environment Variables
 
