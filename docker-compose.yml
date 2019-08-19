@@ -16,6 +16,9 @@ services:
       - rsyslog
       - zookeeper
       - kafka
+    volumes:
+      - /app/node_modules
+      - ./consumer:/crato-app
 
   rsyslog:
     build:
@@ -28,12 +31,17 @@ services:
     depends_on:
       - zookeeper
       - kafka
+    volumes:
+      - rsyslog-data:/var/lib/rsyslog/data
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 8092
       ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-logs/var/lib/zookeeper/log
 
   kafka:
     hostname: kafka
@@ -47,6 +55,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
 
   kafka2:
     hostname: kafka2
@@ -60,6 +71,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+    volumes:
+      - kafka2-data:/var/lib/kafka/data
+
 
   kafka3:
     hostname: kafka3
@@ -73,7 +87,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-
+    volumes:
+      - kafka3-data:/var/lib/kafka/data
 
   influxdb: #on port 8086
     image: influxdb
@@ -81,6 +96,8 @@ services:
       INFLUXDB_DB: "crato_logs"
     depends_on:
       - consumer
+    volumes:
+      - influxdb-data:/var/lib/influxdb/data
 
   chronograf:
     image: chronograf
@@ -92,3 +109,15 @@ services:
     depends_on:
       - consumer
       - influxdb
+    volumes:
+      - chronograf-data:/var/lib/chronograf
+
+volumes:
+  rsyslog-data:
+  zookeeper-data:
+  zookeeper-logs:
+  kafka-data:
+  kafka2-data:
+  kafka3-data:
+  influxdb-data:
+  chronograf-data:

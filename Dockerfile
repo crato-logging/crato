@@ -2,7 +2,7 @@
 FROM node:alpine
 
 #Install app
-WORKDIR /usr/app
+WORKDIR /usr/crato-consumer
 
 COPY ./package.json ./
 RUN npm install

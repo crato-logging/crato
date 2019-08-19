@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-
 const commander = require('commander')
-const { fork, exec } = require('child_process');
+const { spawn, exec } = require('child_process');
 const program = new commander.Command();
 
 const SERVICES = ['rsyslog', 'kafka', 'kafka2', 'kafka3', 'zookeeper', 'influxdb', 'chronograf', 'consumer']
@@ -68,10 +67,12 @@ const deployCrato = () => {
 }
 
 const displayDockerLogs = (service) => {
+    let cmd = `docker-compose logs -t ${cmdFlags} ${service}`
+
     service = service.toLowerCase()
     if (SERVICES.includes(service)) {
         log(`Displaying logs for ${NAMES[service]}...`)
-        exec(`docker-compose logs ${service}`, (err, stdout, stderr) => {
+        exec(cmd, (err, stdout, stderr) => {
             console.log(stdout)
         });
     } else {
@@ -81,9 +82,10 @@ const displayDockerLogs = (service) => {
 }
 
 const liveTail = () => {
-    const tailingDockerCmd = () => exec('docker-compose exec rsyslog tail -f /var/log/syslog', (err, stdout, stderr) => {
-      console.log(stdout)
-    })
+    const tailingDockerCmd = () => {
+      spawn('docker-compose', ['exec', 'rsyslog', 'tail', '-f'], { stdio: 'inherit' });
+    }
+
     log('Crato will shortly be live tailing logs streaming into the system...')
     log(`Enter Ctrl-C to exit live-tail mode`)
     setTimeout(tailingDockerCmd, 2000)
@@ -94,7 +96,7 @@ const stopCrato = () => {
     exec('docker-compose stop')
 }
 
-const displaySystemStatus = () => (exec('docker ps', (err, stdout, stderr) => console.log(stdout)))
+const displaySystemStatus = () => (exec('docker ps -a', (err, stdout, stderr) => console.log(stdout)))
 
 const startService = (service) => {
     service = service.toLowerCase()
@@ -135,11 +137,11 @@ const installKafka = () => {
         setTimeout(() => {
             log('Starting Kafka Brokers...');
             exec('docker-compose up -d kafka').on('close', () => {
-                log('1st Kafka Broker running');
+                log('1st Kafka broker running');
                 exec('docker-compose up -d kafka2').on('close', () => {
-                    log('2nd Kafka Broker running');
+                    log('2nd Kafka broker running');
                     exec('docker-compose up -d kafka3').on('close', () => {
-                        log('3rd Kafka Broker running');
+                        log('3rd Kafka broker running');
 
                         setTimeout(() => {
                             log("Setting up 'textlogs' & 'jsonlogs' topic...")
@@ -163,14 +165,14 @@ const installKafka = () => {
 
 
 program.version('0.7')
-    .description('Crato: Log Management Framework.')
+    .description('📦 Crato: Log Management Framework.')
 
 program.command('services')
     .description("Provides a listing and description of all of Crato's services")
     .action(() => { console.log(SERVICE_LISTING) })
 
 program.command('deploy')
-    .description('Start up Crato system')
+    .description('Starts up Crato system')
     .action(deployCrato)
 
 program.command('start <service>')
@@ -187,17 +189,16 @@ program.command('install-kafka')
 
 program.command('container-logs <service>')
     .alias('cl')
-    .description(`Displays Docker container logs for a specific service`)
+    .description('Displays Docker container logs for a specific service')
     .action((service) => displayDockerLogs(service))
-
 
 program.command('live-tail')
     .alias('lt')
-    .description('See all logs streaming into Crato. Press Ctrl-C to exit')
+    .description('See all external logs streaming into Crato. Press Ctrl-C to exit')
     .action(liveTail)
 
 program.command('status')
-    .description('Displays the status of all Crato services')
+    .description("Displays the status of all of Crato's services")
     .action(displaySystemStatus)
 
 // Assert that a VALID command is provided
