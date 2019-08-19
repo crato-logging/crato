@@ -8,34 +8,41 @@ Crato is an open source framework for small applications to easily deploy centra
 
 ### 🏠 [Homepage](http://bit.ly/2TJckpZ)
 
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Crato Usage](#crato-usage)
+- [Environment Variables](#environment-variables)
+- [Install](#install)
+- [Deploying Crato](#deploying-crato)
+- [Support](#show-your-support)
+
 ## Crato Usage
 
-Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [NodeJS](https://nodejs.org/en/download/) .
+Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM]([https://docs.npmjs.com/downloading-and-installing-node-js-and-npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)) and [NodeJS]([https://nodejs.org/en/download/](https://nodejs.org/en/download/)) .
 
-After installing the above dependencies, run `npm install`  && `npm link` which will make the `crato` command available.
+After installing the above dependencies, run `npm link`  && `npm install` which will make the `crato` command available.
 
 Here are a list of Crato commands:
+| Commands                   |   Description                                                                 |
+|----------------------------|----------------------------------------------------------------------|
+| `services`                   |    Provides a listing and description of all of Crato's services    
+| `deploy`                     |    Starts up Crato system                                           
+| `shutdown`                   |    Shops Crato system and all services                              
+| `start <service>`            |    Starts a specific Crato service                                  
+| `stop <service>`             |    Stops a specific Crato service                                   
+| `install-kafka`              |    Installs Kafka cluster and textlogs & jsonlogs topics           
+| `container-logs|cl <service>`|    Displays Docker container logs for a specific service            
+| `live-tail|lt`               |    See all external logs streaming into Crato. Press Ctrl-C to exit 
+| `shell|sh <service>`         |    Attaches a shell to a specific Crato service                     
+| `status`                     |    Displays the status of all of Crato's services                   
 
-|              Commands             	|                            Description                           	|
-|:---------------------------------:	|:----------------------------------------------------------------:	|
-| `services`                        	| Provides a listing and description of all of Crato's services    	|
-| `deploy`                          	| Starts up Crato system                                           	|
-| `shutdown`                        	| Stops Crato system and all services                              	|
-| `start <service>`                 	| Starts a specific Crato service                                  	|
-| `stop <service>`                  	| Stops a specific Crato service                                   	|
-| `install-kafka`                   	| Installs Kafka cluster and textlogs & jsonlogs topics            	|
-| `container-logs \| cl <service>`  	| Displays Docker container logs for a specific service            	|
-| `live-tail \| lt`                 	| See all external logs streaming into Crato. Press Ctrl-C to exit 	|
-| `shell \| sh <service>`           	| Attaches a shell for a specific Crato service                    	|
-| `status`                          	| Displays the status of all of Crato's services                   	|
-  
 ## Environment Variables
 
-Crato uses some environment variables for its NodeJS consumer app to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
+Crato uses some environment variables for it's NodeJS consumer app mainly to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
 
-Crato uses the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. Crato also requires `QUEUE_MAX_SIZE` to determine the number of logs to queue before being uploaded to AWS S3.
+Crato uses the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. We also require the `QUEUE_MAX_SIZE` to determine the number of logs to queue, before being uploaded to AWS S3.
 
-These environment variables should be saved on your local machine and Docker will automatically read them if they are.
+These environment variables should be written on a local machine and Docker will automatically read them if they are.
 
 ## Install
 
@@ -45,21 +52,17 @@ To install Crato, clone *this* repo. Then run `docker-compose pull` to download 
 
 ## Deploying Crato
 
-Crato can be deployed in two ways:
-
-Using Crato CLI:
+Using Crato CLI
 
  1. `crato install-kafka`
  2. `crato deploy`
 
-Using Docker-Compose CLI:
-1. `docker-compose up -d zookeeper`
-2. `docker-compose up -d kafka`
+Using Docker-Compose CLI
+1. `docker-compose up zookeeper`
+2. `docker-compose up kafka`
 3. `docker-compose exec kafka kafka-topics --create --zookeeper zookeeper:8092 --replication-factor 3 --partitions 6 --topic textlogs`
 4. `docker-compose exec kafka kafka-topics --create --zookeeper zookeeper:8092 --replication-factor 3 --partitions 6 --topic jsonlogs`
-5. `docker-compose up -d`
-
-Use `crato status` or `docker ps -a` to check the status of the containers that have been created.
+5. `docker-compose up`
 
 ## Show your support
 
