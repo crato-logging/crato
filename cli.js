@@ -189,7 +189,7 @@ program.command('deploy')
     .action(deployCrato)
 
 program.command('shutdown')
-       .description('Shops Crato system and all services')
+       .description('Stops Crato system and all services')
        .action(stopCrato)
 
 program.command('start <service>')
