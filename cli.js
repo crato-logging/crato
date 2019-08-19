@@ -91,6 +91,17 @@ const liveTail = () => {
     setTimeout(tailingDockerCmd, 2000)
 }
 
+const openShell = (service) => {
+    if (!NAMES[service]) {
+        log(`${service} is not a valid service.`)
+        console.log(SERVICE_LISTING)
+        return;
+    }
+    log(`Opening a shell for the ${NAMES[service]}`)
+    const shFunc = () => spawn('docker-compose', ['exec', service, 'sh'], { stdio: 'inherit' });
+    setTimeout(shFunc, 2000)
+}
+
 const stopCrato = () => {
     log('Crato is now shutting down...')
     exec('docker-compose stop').on('close', (err, stdout, stderr) => {
@@ -202,6 +213,11 @@ program.command('live-tail')
     .alias('lt')
     .description('See all external logs streaming into Crato. Press Ctrl-C to exit')
     .action(liveTail)
+
+program.command('shell <service>')
+       .alias('sh')
+       .description('Attaches a shell to a specific Crato service')
+       .action(openShell)
 
 program.command('status')
     .description("Displays the status of all of Crato's services")
