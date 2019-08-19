@@ -1,17 +1,17 @@
 version: '3'
 
 services:
-  consuming: # node.js app for kafka consumers on port 3000
+  consumer: # node.js app for kafka consumers on port 3000
     build:
       context: .
       dockerfile: ./Dockerfile
     environment:
       INFLUXDB_HOST: influxdb
-      KAFKA_HOST: kafka
-      AWS_ACCESS_KEY_ID: ''
-      AWS_SECRET_ACCESS_KEY: ''
-      AWS_S3_BUCKET_NAME: ''
-      QUEUE_MAX_SIZE: ''
+      KAFKA_HOST: "kafka:29092,kafka2:29092,kafka3:29092"
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_S3_BUCKET_NAME: ${AWS_S3_BUCKET_NAME}
+      QUEUE_MAX_SIZE: ${QUEUE_MAX_SIZE}
     depends_on:
       - rsyslog
       - zookeeper
