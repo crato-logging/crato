@@ -78,7 +78,7 @@ const displayDockerLogs = (service) => {
 }
 
 const liveTail = () => {
-    const tailingDockerCmd = exec('docker-compose exec rsyslog tail -f /var/log/syslog')
+    const tailingDockerCmd = () => exec('docker-compose exec rsyslog tail -f /var/log/syslog')
     log('Crato will shortly be live tailing logs streaming into the system...')
     log(`Enter Ctrl-C to exit live-tail mode`)
     setTimeout(tailingDockerCmd, 2000)

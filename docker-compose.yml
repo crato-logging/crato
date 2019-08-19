@@ -80,7 +80,7 @@ services:
     environment:
       INFLUXDB_DB: "crato_logs"
     depends_on:
-      - consuming
+      - consumer
 
   chronograf:
     image: chronograf
@@ -90,5 +90,5 @@ services:
     ports:
        - '8888:8888'
     depends_on:
-      - consuming
+      - consumer
       - influxdb
