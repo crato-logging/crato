@@ -161,7 +161,7 @@ program.command('live-tail')
     .action(liveTail)
 
 program.command('status')
-    .description('Displays the status of all Docker service containers')
+    .description('Displays the status of all Crato services')
     .action(displaySystemStatus)
 
 // Assert that a VALID command is provided
