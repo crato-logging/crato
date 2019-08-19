@@ -51,11 +51,13 @@ Using Crato CLI
  2. `crato deploy`
 
 Using Docker-Compose CLI
-1. `docker-compose up zookeeper`
-2. `docker-compose up kafka`
+1. `docker-compose up -d zookeeper`
+2. `docker-compose up -d kafka`
 3. `docker-compose exec kafka kafka-topics --create --zookeeper zookeeper:8092 --replication-factor 3 --partitions 6 --topic textlogs`
 4. `docker-compose exec kafka kafka-topics --create --zookeeper zookeeper:8092 --replication-factor 3 --partitions 6 --topic jsonlogs`
-5. `docker-compose up`
+5. `docker-compose up -d`
+
+Use `crato status` or `docker ps -a` to check the status of the containers that have been created.
 
 ## Show your support
 
