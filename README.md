@@ -31,9 +31,9 @@ Here are a list of Crato commands:
   
 ## Environment Variables
 
-Crato uses some environment variables for it's NodeJS consumer app mainly to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
+Crato uses some environment variables for its NodeJS consumer app to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
 
-Crato uses the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. We also require the `QUEUE_MAX_SIZE` to determine the number of logs to queue, before being uploaded to AWS S3.
+Crato uses the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. Crato also requires `QUEUE_MAX_SIZE` to determine the number of logs to queue before being uploaded to AWS S3.
 
 These environment variables should be written on a local machine and Docker will automatically read them if they are.
 
