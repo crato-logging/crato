@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const commander = require('commander')
-const exec = require('child_process').exec;
+const { fork, exec } = require('child_process');
 const program = new commander.Command();
 
 const SERVICES = ['rsyslog', 'kafka', 'kafka2', 'kafka3', 'zookeeper', 'influxdb', 'chronograf', 'consumer']
@@ -55,9 +55,10 @@ const log = (message) => {
 
 const deployCrato = () => {
     log('Crato is booting up the system...')
+    log('This may take several minutes to install all dependencies.')
     exec('docker-compose up -d zookeeper', (err, stdout, stderr) => {
         setTimeout(() => {
-            exec('docker-compose up').on('close', (err, stdout, stderr) => {
+            exec('docker-compose up -d').on('close', (err, stdout, stderr) => {
                 log('Crato is now fully running.')
             });
         }, 7000);
@@ -69,7 +70,7 @@ const displayDockerLogs = (service) => {
     if (SERVICES.includes(service)) {
         log(`Displaying logs for ${NAMES[service]}...`)
         exec(`docker-compose logs ${service}`).on('close', (err, stdout, stderr) => {
-          console.log(stdout)
+            console.log(stdout)
         });
     } else {
         log(`${service} is not a valid service.`)
@@ -92,7 +93,7 @@ const stopCrato = () => {
 const displaySystemStatus = () => (exec('docker ps', (err, stdout, stderr) => console.log(stdout)))
 
 const startService = (name) => {
-    name = name.toLowerCase()
+    name = name.toLowerCase
     if (SERVICES.includes(service)) {
         log(`Starting ${NAMES[service]}...`)
         exec(`docker-compose start ${service}`.on('close', () => {
@@ -123,13 +124,17 @@ const stopService = (name) => {
     }
 }
 
+const installKafka = () => {
+
+}
+
 
 program.version('0.7')
     .description('Crato: Log Management Framework.')
 
 program.command('services')
-       .description("Provides a listing and description of all of Crato's services")
-       .action(() => {console.log(SERVICE_LISTING)})
+    .description("Provides a listing and description of all of Crato's services")
+    .action(() => { console.log(SERVICE_LISTING) })
 
 program.command('deploy')
     .description('Start up Crato system')
@@ -143,11 +148,15 @@ program.command('stop <service>')
     .description('Stops Crato or a specific service')
     .action((service) => startService(service))
 
+program.command('install-kafka')
+    .description("Installs Kafka cluster and jsonlogs & textlogs topics")
+    .action(installKafka)
+
 program.command('container-logs <service>')
     .description(`Displays Docker container logs for a service`)
     .action((service) => displayDockerLogs(service))
 
-program.command('tail')
+program.command('live-tail')
     .description('See all logs streaming into Crato. Press Ctrl-C to exit.')
     .action(liveTail)
 
@@ -157,7 +166,7 @@ program.command('status')
 
 // Assert that a VALID command is provided
 if (!process.argv.slice(2).length || !/[arudl]/.test(process.argv.slice(2))) {
-  program.outputHelp();
-  process.exit();
+    program.outputHelp();
+    process.exit();
 }
 program.parse(process.argv)
