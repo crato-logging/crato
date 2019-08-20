@@ -4,7 +4,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-(0.7.0)-blue.svg?cacheSeconds=2592000" />
 </p>
 
-Crato is an open source framework for small applications to easily deploy centralized logging. Crato is built with Node.JS, Apache Kafka, InfluxDB, and AWS S3. This repo contains the core Crato product that receives, transforms, and stores log data for further analysis.
+Crato is an open source framework for small applications to easily deploy centralized logging. Crato is built with Node.JS, Rsylog, Apache Kafka, InfluxDB, and AWS S3. This repo contains the core Crato project that receives, transforms, and stores log data for further analysis.
 
 ### 🏠 [Homepage](http://bit.ly/2TJckpZ)
 
@@ -75,6 +75,6 @@ Crato exposes ports `514` and `10514` for receiving log data into the system. On
 
 ## Show your support
 
-Give a ⭐️ if this project helped you!
+Give a ⭐️ if you liked this project!
 
 ***
