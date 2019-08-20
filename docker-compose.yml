@@ -33,6 +33,7 @@ services:
       - kafka
     volumes:
       - rsyslog-data:/var/lib/rsyslog/data
+      - rsyslog-logs:/var/log/
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -114,6 +115,7 @@ services:
 
 volumes:
   rsyslog-data:
+  rsyslog-logs:
   zookeeper-data:
   zookeeper-logs:
   kafka-data:

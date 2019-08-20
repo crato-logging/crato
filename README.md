@@ -15,12 +15,14 @@ Crato is an open source framework for small applications to easily deploy centra
 - [Install](#install)
 - [Deploying Crato](#deploying-crato)
 - [Support](#show-your-support)
+- [Networking](#Networking)
+
 
 ## Crato Usage
 
 Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM]([https://docs.npmjs.com/downloading-and-installing-node-js-and-npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)) and [NodeJS]([https://nodejs.org/en/download/](https://nodejs.org/en/download/)) .
 
-After installing the above dependencies, run `npm link`  && `npm install` which will make the `crato` command available.
+After installing the above dependencies, run `npm install`  && `npm link` which will make the `crato` command available.
 
 Here are a list of Crato commands:
 
@@ -39,15 +41,15 @@ Here are a list of Crato commands:
 
 ## Environment Variables
 
-Crato uses some environment variables for it's NodeJS consumer app mainly to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
+Crato uses some environment variables for its NodeJS consumer app mainly to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
 
-Crato uses the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. We also require the `QUEUE_MAX_SIZE` to determine the number of logs to queue, before being uploaded to AWS S3.
+Crato uses `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. We also require the `QUEUE_MAX_SIZE` to determine the number of logs to queue, before being uploaded to AWS S3.
 
-These environment variables should be written on a local machine and Docker will automatically read them if they are.
+These environment variables should be written on your local machine and Docker will automatically read them if they are. See [this](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html) great guide by Twilio for how to set environment variables on different operating systems.
 
 ## Install
 
-The Crato system is deployed and orchestrated through [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/install/) for the `docker-compose.yml` file. Both of these must be installed.
+The Crato system is deployed and orchestrated through [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/install/) with the `docker-compose.yml` file. Both of these must be installed.
 
 To install Crato, clone *this* repo. Then run `docker-compose pull` to download the necessary Docker images to build the service containers. The install can be finished via Crato CLI commands or Docker or Docker-Compose CLI commands. 
 
@@ -55,15 +57,21 @@ To install Crato, clone *this* repo. Then run `docker-compose pull` to download 
 
 Using Crato CLI
 
- 1. `crato install-kafka`
- 2. `crato deploy`
+1. `crato install-kafka`
+2. `crato deploy`
 
 Using Docker-Compose CLI
-1. `docker-compose up zookeeper`
-2. `docker-compose up kafka`
+1. `docker-compose up -d zookeeper`
+2. `docker-compose up -d kafka`
 3. `docker-compose exec kafka kafka-topics --create --zookeeper zookeeper:8092 --replication-factor 3 --partitions 6 --topic textlogs`
 4. `docker-compose exec kafka kafka-topics --create --zookeeper zookeeper:8092 --replication-factor 3 --partitions 6 --topic jsonlogs`
-5. `docker-compose up`
+5. `docker-compose up -d`
+
+Use `crato status` or `docker ps -a` to check the status of the service containers that have been created.
+
+## Networking
+
+Crato exposes ports `514` and `10514` for receiving log data into the system. On your own host machine where Crato is deployed, make sure these are available.
 
 ## Show your support
 
