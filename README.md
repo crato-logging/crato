@@ -14,8 +14,8 @@ Crato is an open source framework for small applications to easily deploy centra
 - [Environment Variables](#environment-variables)
 - [Install](#install)
 - [Deploying Crato](#deploying-crato)
-- [Support](#show-your-support)
 - [Networking](#Networking)
+- [Show Your Support](#show-your-support)
 
 
 ## Crato Usage
