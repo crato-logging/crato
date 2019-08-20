@@ -20,7 +20,7 @@ Crato is an open source framework for small applications to easily deploy centra
 
 ## Crato Usage
 
-Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM]([https://docs.npmjs.com/downloading-and-installing-node-js-and-npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)) and [NodeJS]([https://nodejs.org/en/download/](https://nodejs.org/en/download/)) .
+Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [NodeJS](https://nodejs.org/en/download/).
 
 After installing the above dependencies, run `npm install`  && `npm link` which will make the `crato` command available.
 
