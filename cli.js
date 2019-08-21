@@ -83,7 +83,7 @@ const displayDockerLogs = (service) => {
 
 const liveTail = () => {
     const tailingDockerCmd = () => {
-      spawn('docker-compose', ['exec', 'rsyslog', 'tail', '-f'], { stdio: 'inherit' });
+      spawn('docker-compose', ['exec', 'rsyslog', 'tail', '-f', '/var/log/syslog'], { stdio: 'inherit' });
     }
 
     log('Crato will shortly be live tailing logs streaming into the system...')
