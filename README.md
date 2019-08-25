@@ -9,7 +9,7 @@
 
 Crato is an open source framework for small applications to easily deploy centralized logging. Crato is built with Node.JS, Rsyslog, Apache Kafka, InfluxDB, and AWS S3. This repo contains the core Crato project that receives, transforms, and stores log data for further analysis.
 
-<h2 align="center">🏠 [Homepage](http://bit.ly/2TJckpZ)</h2>
+### 🏠 [Homepage](http://bit.ly/2TJckpZ)
 
 ## Table of Contents
 - [Crato Usage](#crato-usage)
