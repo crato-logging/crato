@@ -7,7 +7,7 @@
 ![version](https://img.shields.io/badge/version-0.7.0-1e4470?style=plastic) 
 ![license](https://img.shields.io/github/license/crato-logging/crato?color=1e4470&style=plastic)
 
-Crato is an open source framework for small applications to easily deploy centralized logging. Crato is built with Node.JS, Rsyslog, Apache Kafka, InfluxDB, and AWS S3. This repo contains the core Crato project that receives, transforms, and stores log data for further analysis.
+Crato is an open source framework for small applications to easily deploy centralized logging. Crato is built with Node.js, Rsyslog, Apache Kafka, InfluxDB, and AWS S3. This repo contains the core Crato project that receives, transforms, and stores log data for further analysis.
 
 ### 🏠 [Homepage](http://bit.ly/2TJckpZ)
 
@@ -22,7 +22,7 @@ Crato is an open source framework for small applications to easily deploy centra
 
 ## Crato Usage
 
-Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [NodeJS](https://nodejs.org/en/download/).
+Crato provides a CLI to make using the core system and tracking logs much easier. It requires installing both [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [Node.js](https://nodejs.org/en/download/).
 
 After installing the above dependencies, run `npm install`  && `npm link` which will make the `crato` command available.
 
@@ -43,7 +43,7 @@ Here are a list of Crato commands:
 
 ## Environment Variables
 
-Crato uses some environment variables for its NodeJS consumer app mainly to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
+Crato uses some environment variables for its Node.js consumer app mainly to archive logs to Amazon Web Services (AWS) Simple Storage Service (S3).
 
 Crato uses `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` to authenticate for AWS S3. We also require the `QUEUE_MAX_SIZE` to determine the number of logs to queue, before being uploaded to AWS S3.
 
