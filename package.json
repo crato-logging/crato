@@ -16,7 +16,7 @@
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
     "esm": "^3.2.25",
-    "express": "~4.16.1",
+    "express": "~4.18.2",
     "http-errors": "~1.6.3",
     "influx": "^5.4.0",
     "inquirer": "^6.5.1",
